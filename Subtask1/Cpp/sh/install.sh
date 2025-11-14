@@ -1,0 +1,1 @@
+doas pacman -Suy openmpi
