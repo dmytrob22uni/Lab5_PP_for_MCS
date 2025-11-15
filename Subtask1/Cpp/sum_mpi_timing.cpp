@@ -114,6 +114,19 @@ int main(int argc, char** argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
+    // multiprocessing proof
+    char name[MPI_MAX_PROCESSOR_NAME];
+    int name_len;
+    MPI_Get_processor_name(name, &name_len);
+    std::cout << "rank #" << world_rank 
+        << " of " << world_size 
+        << " on " << name << "\n";
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    if (world_rank == 0) {
+        std::cout << "\n";
+    }
+
     const std::int64_t n = 2000000; // array length
 
     // prepare counts and displacements for Scatterv
@@ -169,6 +182,8 @@ int main(int argc, char** argv) {
     if (world_rank == 0) {
         std::cout << std::fixed << std::setprecision(3);
         std::cout << "n = " << n << ", ranks = " << world_size << "\n";
+        std::cout << "\n";
+
         std::cout << "Single threaded (root) sum = " << sum_single << "\n";
         std::cout << "Single threaded elapsed time = " << time_single << " ms\n";
         std::cout << "\n";
