@@ -79,10 +79,13 @@ public class Program {
             }
             
             // sum calculation for root chunk
+            float localStartTime = System.nanoTime();
             long localSum = 0;
             int localCount = elementsPerChunk[ROOT];
             for (int i = startIndexPerChunk[ROOT]; i < startIndexPerChunk[ROOT] + localCount; i++)
                 localSum += data[i];
+            long localEndTime = System.nanoTime();
+            float localTime = (localEndTime - localStartTime) / 1_000_000F;
 
             // receive chunk sums from workers and accumulate
             long total = 0L;
@@ -100,17 +103,17 @@ public class Program {
             }
 
             // receive chunk calculations pure time and accumulate
-            float time = 0F;
+            float time = localTime;
             for (int procIndex = 1; procIndex < size; procIndex++) {
                 float[] chunkTime = new float[1];
 //R//
-                    comm.recv(
+                comm.recv(
                     chunkTime,  // where to put
                     1,  // amount of data
                     MPI.FLOAT,
                     procIndex,  // source rank index
                     TAG_TIME);  // message tag
-                time += chunkTime[0];
+                time = Math.max(time, chunkTime[0]);
             }
 
             System.out.printf(
