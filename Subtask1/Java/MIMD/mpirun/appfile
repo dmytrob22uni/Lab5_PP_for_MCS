@@ -1,0 +1,4 @@
+-n 1 java --enable-native-access=ALL-UNNAMED -cp master-0.0.1.jar:/usr/lib/mpi.jar task1.Program
+-n 3 java --enable-native-access=ALL-UNNAMED -cp worker-0.0.1.jar:/usr/lib/mpi.jar task1.Program
+-n 2 java --enable-native-access=ALL-UNNAMED -cp worker-0.0.1.jar:/usr/lib/mpi.jar task1.Program
+-n 2 java --enable-native-access=ALL-UNNAMED -cp worker-0.0.1.jar:/usr/lib/mpi.jar task1.Program

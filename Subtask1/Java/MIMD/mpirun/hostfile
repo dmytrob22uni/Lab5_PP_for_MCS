@@ -1,0 +1,4 @@
+localhost slots=1 max-slots=1
+localhost slots=3 max-slots=5
+user1@node1 slots=2 max-slots=4
+user2@node2 slots=2 max-slots=4
